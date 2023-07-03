@@ -163,3 +163,10 @@ resource "aws_acm_certificate" "cert" {
   private_key      = tls_private_key.example.private_key_pem
   certificate_body = tls_self_signed_cert.terramino.cert_pem
 }
+
+check "certificate" {
+  assert {
+    condition     = aws_acm_certificate.cert.status == "ERRORED"
+    error_message = "Certificate status is ${aws_acm_certificate.cert.status}"
+  }
+}
